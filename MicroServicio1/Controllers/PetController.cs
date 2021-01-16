@@ -62,15 +62,24 @@ namespace MicroServicio1.Controllers
         }
 
         // PUT api/<PetController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut ("{id}")]
+        public void Put(Pet model)
         {
+            _petRepository.UpdatePet(model);
         }
 
         // DELETE api/<PetController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            try
+            {
+                _petRepository.DeletePet(id);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

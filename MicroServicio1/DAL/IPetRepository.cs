@@ -11,5 +11,7 @@ namespace MicroServicio1.DAL
         IEnumerable<Pet> GetPets();
         Pet GetPetByID(int id);
         void InsertPet(Pet pet);
+        void DeletePet(int PetId);
+        void UpdatePet(Pet pet);
     }
 }

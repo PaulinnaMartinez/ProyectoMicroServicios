@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MicroServicio2.DAL;
+using MicroServicio2.Database;
+using MicroServicio2.Database.Entities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,26 +13,40 @@ namespace MicroServicio2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
+        private IUserRepository _userRepository;
+
+        public UserController()
+        {
+            this._userRepository = new UserRepository(new DatabaseContext());
+        }
+
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<User> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _userRepository.GetUsers();
+
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User Get(int id)
         {
-            return "value";
+            return _userRepository.GetUserByID(id);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] User model)
         {
+            try
+            {
+                _userRepository.InsertUser(model);
+            }
+            catch { 
+            }
         }
 
         // PUT api/<UserController>/5
@@ -42,6 +59,7 @@ namespace MicroServicio2.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _userRepository.DeleteUser(id);
         }
     }
 }
